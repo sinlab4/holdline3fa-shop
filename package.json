@@ -1,0 +1,12 @@
+{
+  "name": "holdline3fa",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Temporary phone number storefront with accounts, wallet, orders and admin panel. No third-party dependencies.",
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node src/server.js",
+    "create-admin": "node scripts/create-admin.js",
+    "test": "node test/smoke.js"
+  }
+}

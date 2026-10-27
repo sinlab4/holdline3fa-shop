@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Holdline3FA</title>
+<meta name="description" content="Rent a temporary phone number and receive your verification code.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b6b57'/%3E%3Cpath d='M10 22V10M10 16h7a4 4 0 0 1 4 4v2' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="var(--accent)"/><path d="M9 21.5v-11M9 16h7a4 4 0 0 1 4 4v1.5" fill="none" stroke="var(--accent-ink)" stroke-width="2.6" stroke-linecap="round"/><circle cx="22.5" cy="11" r="2.2" fill="var(--accent-ink)"/></svg>
+      <span id="siteName">Holdline3FA</span>
+    </a>
+    <div class="who" id="who">
+      <button class="btn" id="loginBtn" type="button">Log in</button>
+      <button class="btn primary" id="signupBtn" type="button">Create account</button>
+    </div>
+  </header>
+
+  <div class="notice" id="banner" hidden></div>
+  <div class="notice warn" id="maint" hidden>Orders are paused for maintenance. You can still see your existing numbers and codes.</div>
+  <div class="notice" id="paid" hidden></div>
+
+  <section class="intro">
+    <div class="col">
+      <h1>Rent a number. Receive the code.</h1>
+      <p>Choose an app and a country, pay once, and the verification SMS shows up on this page. If no code arrives, the full price goes back to your balance.</p>
+    </div>
+  </section>
+
+  <main class="grid">
+    <section class="panel" aria-labelledby="buyTitle">
+      <h2 id="buyTitle">Get a number</h2>
+      <div class="col">
+        <div class="step-label"><span>1 · App or website</span><span id="svcCount"></span></div>
+        <label class="lbl" for="q" hidden>Search apps</label>
+        <input class="input" id="q" type="search" placeholder="Search WhatsApp, Google, Uber…" autocomplete="off">
+        <div class="services" id="services"></div>
+      </div>
+      <div class="col">
+        <div class="step-label"><span>2 · Country</span><span>Price · Stock</span></div>
+        <div class="countries" id="countries"><div class="empty">Choose an app to see countries and prices.</div></div>
+      </div>
+      <div class="buybar">
+        <div><strong id="sumTitle">Choose an app</strong><span id="sumSub">Prices update with your choice.</span></div>
+        <button class="btn primary" id="buy" type="button" disabled>Buy number</button>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="ordTitle">
+      <h2 id="ordTitle">Your numbers</h2>
+      <div class="orders" id="orders"></div>
+    </section>
+  </main>
+
+  <section class="how" aria-label="How it works">
+    <div><h3>1. Pick and pay</h3><p>Prices vary by app and country. The cost is held when you buy.</p></div>
+    <div><h3>2. Use the number</h3><p>Paste it into the app's sign-up or verification screen and ask it to send a code.</p></div>
+    <div><h3>3. Copy the code</h3><p>The SMS appears here. If nothing arrives before the hold ends, the price returns to your balance.</p></div>
+  </section>
+  <p class="fine">Temporary numbers are for verifying accounts you are entitled to open and for protecting your own privacy. Using them to evade a platform's rules, create fake or bulk accounts, harass anyone or commit fraud is not allowed, and accounts that do will be closed. App names belong to their owners and are used only to describe what a number can verify.</p>
+</div>
+
+<dialog id="authDlg" aria-labelledby="authTitle">
+  <form id="authForm" method="dialog">
+    <h2 id="authTitle">Log in</h2>
+    <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" autocomplete="email" required></div>
+    <div class="field"><label for="password">Password</label><input class="input" id="password" type="password" autocomplete="current-password" minlength="1" required><span class="hint" id="pwHint" hidden>At least 10 characters.</span></div>
+    <label class="check" id="termsRow" hidden><input id="terms" type="checkbox"><span>I will use numbers only for accounts I am entitled to open, and I accept the rules at the bottom of this page.</span></label>
+    <div class="err" id="authErr" role="alert"></div>
+    <div class="row"><button class="btn" id="authCancel" type="button">Cancel</button><button class="btn primary" id="authSubmit" type="submit">Log in</button></div>
+    <button class="link" id="authSwitch" type="button">Need an account? Create one</button>
+  </form>
+</dialog>
+
+<dialog id="topupDlg" aria-labelledby="topTitle">
+  <form id="topupForm" method="dialog">
+    <h2 id="topTitle">Add credit</h2>
+    <div class="amounts" id="amounts"></div>
+    <div class="field"><label for="customAmt">Other amount (₦)</label><input class="input" id="customAmt" type="number" min="1000" max="500000" step="100" inputmode="numeric" placeholder="e.g. 5000"></div>
+    <div class="hint" id="topNote"></div>
+    <div class="err" id="topErr" role="alert"></div>
+    <div class="row"><button class="btn" id="topCancel" type="button">Cancel</button><button class="btn primary" id="topSubmit" type="submit">Continue</button></div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/common.js"></script>
+<script src="/shop.js"></script>
+</body>
+</html>
